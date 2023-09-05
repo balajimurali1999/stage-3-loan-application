@@ -1,0 +1,77 @@
+@import '../App.css';
+
+.data-table-container {
+    width: 100% !important;
+}
+
+.dashboard-container {
+    width: 100% !important;
+}
+
+@media (min-width: 1024px) {
+    .dashboard-container {
+        width: 100% !important;
+    }
+
+    .content-row {
+        display: flex !important;
+    }
+
+    .data-table-container {
+        width: 65% !important;
+    }
+
+}
+
+@media (min-width : 320px) {
+
+    .dashboard-container {
+        width: 30% !important;
+    }
+
+    .content-row {
+        display: block;
+    }
+    .array-data {
+        width: 150% !important;
+
+    }
+}
+
+@media (min-width : 375px) {
+
+    .dashboard-container {
+        width: 30% !important;
+    }
+
+    .content-row {
+        display: block;
+    }
+}
+
+@media (min-width : 425px) {
+
+    .dashboard-container {
+        width: 40% !important;
+        margin-left: 1rem;
+    }
+
+    .content-row {
+        display: block;
+    }
+}
+
+@media (min-width : 768px) {
+
+    .dashboard-container {
+        width: 100% !important;
+    }
+
+    .content-row {
+        display: block;
+    }
+
+    .data-table-container {
+        width: 60% !important;
+    }
+}

@@ -1,61 +1,55 @@
-import React from "react";
+import React, { useState } from "react";
 import {
     MdAccountBalance,
-    MdPendingActions,
-    MdAssignmentTurnedIn,
+    // MdPendingActions,
+    // MdAssignmentTurnedIn,
     MdGrading,
     MdAssignmentAdd,
     MdMonetizationOn,
 } from "react-icons/md";
+import { Link, useNavigate } from "react-router-dom";
 const availableSidebarComponents = [
     {
         icon: <MdGrading className="icon" />,
-        label: "Loans List",
-        role: "BANK_MANAGER",
-        link: "/loans",
-    },
-    {
-        icon: <MdPendingActions className="icon" />,
-        label: "Pending Loans",
-        role: "BANK_MANAGER",
-        link: "/pending-loans",
-    },
-    {
-        icon: <MdAssignmentTurnedIn className="icon" />,
-        label: "Approved Loans",
-        role: "BANK_MANAGER",
-        link: "/approved-loans",
-    },
-    {
-        icon: <MdGrading className="icon" />,
-        label: "Loan applications",
+        label: "Loan List Statistics",
         role: "LOAN_OFFICER",
         link: "/loans",
     },
     {
-        icon: <MdMonetizationOn className="icon" />,
-        label: "Track loan",
-        role: "Customer",
-        link: "/track-loan",
+        icon: <MdGrading className="icon" />,
+        label: "Loan List Statistics",
+        role: "BANK_MANAGER",
+        link: "/loans",
     },
     {
         icon: <MdAssignmentAdd className="icon" />,
         label: "Apply Loan",
-        role: "Customer",
-        link: "/loans",
+        role: "CUSTOMER",
+        link: "/applyLoan",
     },
+    {
+        icon: <MdMonetizationOn className="icon" />,
+        label: "Track  loan",
+        role: "CUSTOMER",
+        link: "/trackLoan",
+    }
+
 ];
 function SideBar({ openSidebarToggle, OpenSidebar, user }) {
-    const filteredComponents = availableSidebarComponents.filter(
+    const navigate = useNavigate();
+    let filteredComponents = availableSidebarComponents.filter(
         (component) => component.role === user.role
     );
+    if (user.role === 'CUSTOMER' && Object.keys(user).includes('isLoanTaken')) {
+        filteredComponents = filteredComponents.filter(ele => ele.label !== 'Apply Loan');
+    }
     return (
         <aside
             id="sidebar"
             className={openSidebarToggle ? "sidebar-responsive" : ""}
         >
             <div className="sidebar-title">
-                <div className="sidebar-brand">
+                <div className="sidebar-brand" onClick={() => navigate('/')}>
                     <MdAccountBalance className="icon_header" />
                     Loan App
                 </div>
@@ -66,9 +60,9 @@ function SideBar({ openSidebarToggle, OpenSidebar, user }) {
             <ul className="sidebar-list">
                 {filteredComponents.map((component, index) => (
                     <li className="sidebar-list-item" key={index}>
-                        <a href={`${component.link}/${user.id}`}>
+                        <Link to={`${component.link}`}>
                             {component.icon} {component.label}
-                        </a>
+                        </Link>
                     </li>
                 ))}
             </ul>

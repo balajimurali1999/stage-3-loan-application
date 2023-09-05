@@ -1,5 +1,9 @@
 @import '../App.css';
 
+.container {
+    color: #f1f1f1cc;
+    margin-top: 12px;
+}
 .loan-detail-title {
     font-weight: 600 !important;
     font-size: 18px !important;
@@ -22,4 +26,18 @@
 .button-placement {
     margin-right: 15px;
 
+}
+
+@media (min-width: 768px) {
+    .data-row {
+        display: flex !important;
+    }
+
+
+}
+
+@media (min-width :320px) {
+    .data-row {
+        display: block !important;
+    }
 }

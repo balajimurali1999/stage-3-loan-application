@@ -2,7 +2,7 @@
 
 .login-container {
     display: flex;
-      align-items: center;
+    align-items: center;
     justify-content: center;
     min-height: 90vh;
 }
@@ -74,4 +74,18 @@ form {
 
 #show-password {
     margin-left: -30px;
+}
+
+.login-button {
+    justify-content: center;
+    display: flex;
+    margin-right: 5rem;
+
+
+}
+
+.submit-button {
+    background-color: rgb(35, 134, 54) !important;
+    color: #fff !important;
+    border: none !important;
 }

@@ -14,8 +14,8 @@ import '../App.css'
 const DynamicDialog = ({ open, onClose, dialogContent, dialogTitle, dialogProps, buttonData }) => {
     const handleClose = (option) => {
 
-        if (selectedOption.length > 0 || option === 'Cancel') {
-            onClose({ selectedButton: option + 'ed', selectedOption: selectedOption });
+        if (selectedOption.length > 0 || option === 'Cancel' || option === 'closeIcon') {
+            onClose({ selectedButton: option === 'Approve' ? option + 'd' : option + 'ed', selectedOption: selectedOption });
             setSelectedOption('');
             setErrorMessageVisiblity(false)
         } else {
@@ -28,8 +28,8 @@ const DynamicDialog = ({ open, onClose, dialogContent, dialogTitle, dialogProps,
         <div className='col'>
             <FormControl fullWidth>
 
-                <InputLabel id="dropdown-label">Select</InputLabel>
-                <Select
+                <InputLabel sx={{backgroundColor:'#1d2634',color:'#f1f1f1cc'}} id="dropdown-label">Select</InputLabel>
+                <Select sx={{backgroundColor:'#1d2634',color:'#f1f1f1cc'}}
                     labelId="dropdown-label"
                     id="dropdown"
                     label='select'
@@ -37,21 +37,21 @@ const DynamicDialog = ({ open, onClose, dialogContent, dialogTitle, dialogProps,
                     onChange={(event) => { setSelectedOption(event.target.value); }}
                 >
                     {dialogProps.map((option, ind) => (
-                        <MenuItem key={ind} value={option.name}>
+                        <MenuItem  key={ind} value={option.name}>
                             {option.name}
                         </MenuItem>
                     ))}
                 </Select>
             </FormControl ></div>)
     const actionDialogtemplate = (<div className='row'>
-        <textarea placeholder="write your comments" onChange={(e) => setSelectedOption(e.target.value)} className='form-control'></textarea>
+        <textarea    placeholder="write your comments" onChange={(e) => setSelectedOption(e.target.value)} className='form-control dialog-textarea'  ></textarea>
     </div>); console.log(dialogContent)
     return (
-        <Dialog fullWidth open={open} onClose={handleClose}>
-            <DialogTitle>{dialogTitle}</DialogTitle>
+        <Dialog  fullWidth open={open} onClose={handleClose}>
+            <DialogTitle sx={{backgroundColor:'#1d2634',color:'#f1f1f1cc'}}>{dialogTitle}</DialogTitle>
             <IconButton
                 aria-label="close"
-                onClick={handleClose}
+                onClick={() => handleClose('closeIcon')}
                 sx={{
                     position: 'absolute',
                     right: 8,
@@ -61,11 +61,11 @@ const DynamicDialog = ({ open, onClose, dialogContent, dialogTitle, dialogProps,
             >
                 <CloseIcon />
             </IconButton>
-            <DialogContent dividers>{dialogContent === 'assignLoanDialog' && assignLoanTemplate}
+            <DialogContent sx={{backgroundColor:'#1d2634',color:'#f1f1f1cc'}} dividers>{dialogContent === 'assignLoanDialog' && assignLoanTemplate}
                 {dialogContent === 'actionDialog' && actionDialogtemplate}
                 {errorMessageVisiblity && <div className='error-message'>{dialogContent === 'assignLoanDialog' ? 'Select an option' : 'Enter comments'}</div>}
             </DialogContent>
-            <DialogActions>
+            <DialogActions sx={{backgroundColor:'#1d2634',color:'#f1f1f1cc'}}>
                 <Button onClick={() => { handleClose('Cancel') }} color="primary">
                     Cancel
                 </Button>

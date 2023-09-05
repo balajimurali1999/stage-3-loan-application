@@ -1,28 +1,46 @@
 @import '../App.css';
 
 .table-container {
+    color: white;
+    height: 100%;
+    /* margin: 1rem 3rem 1rem 0rem; */
+ }
 
-    height: 100;
-    width: 100%;
-    margin: 1rem 3rem 1rem 1rem;
-}
-
-@media (min-width : 1024px) {
+@media (min-width : 320px) {
 
     .table-container {
-        width: 75% !important;
-        margin-left: 5rem !important;
+        width: 180% !important;
+    }
+}
+
+@media (min-width : 375px) {
+
+    .table-container {
+        width: 200% !important;
+    }
+}
+
+@media (min-width : 768px) {
+
+    .table-container {
+        width: 100% !important;
     }
 }
 
 
-@media (min-width : 1440px) {
+@media (min-width : 425px) {
 
     .table-container {
-        width: 55% !important;
-        margin-left: 18rem !important;
+        width: 155% !important;
     }
 }
+
+@media screen and (min-width : 1024px) {
+
+    .table-container {
+        width: 100% !important;
+    }
+} 
 
 .assign-button {
     display: flex;
@@ -32,6 +50,8 @@
 
 .view-button {
     text-decoration: underline;
-    color: blue;
+    color: white;
+    font-weight: 700;
+    font-size: 14px;
     cursor: pointer;
 }

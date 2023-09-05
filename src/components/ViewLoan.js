@@ -18,6 +18,7 @@ export default function ViewLoan() {
     const [currentUserDetails, setCurrentUserDetails] = useState({});
     const [openDialog, setOpenDialog] = useState(false);
     const [dialogContent, setDialogContent] = useState(null);
+    const [markCompleted, setMarkCompleted] = useState(false);
     const [buttonData, setButtonData] = useState([]);
     const [dialogTitle, setDialogTitle] = useState('')
     const { id } = useParams();
@@ -77,19 +78,40 @@ export default function ViewLoan() {
     };
 
     const handleCloseDialog = (dataFromDialog) => {
+        console.log(dataFromDialog)
         setOpenDialog(false);
         setDialogContent(null);
         if (dataFromDialog.selectedOption.length > 0) {
             console.log(dataFromDialog)
-            const patchParams = dataFromDialog.selectedButton === 'Assigned' ? { loanOfficer: dataFromDialog.selectedOption, status: 'underwriting' } : { comments: dataFromDialog.selectedOption, status: dataFromDialog.selectedButton }
+            const patchParams = dataFromDialog.selectedButton === ('Assigned' || 'Reassigned') ? { loanOfficer: dataFromDialog.selectedOption, status: 'underwriting' } : { comments: dataFromDialog.selectedOption, status: dataFromDialog.selectedButton }
             axios.patch(`http://localhost:8080/loanDetails/${id}`, patchParams).then(res => {
                 setloanData(res.data)
             }).catch(err => { console.log(err) })
         }
     };
+    function formatFileSize(bytes) {
+        if (bytes < 1024) {
+            return bytes + ' B';
+        } else if (bytes < 1024 * 1024) {
+            return (bytes / 1024).toFixed(2) + ' KB';
+        } else {
+            return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+        }
+    }
+    const loanCompletion = () => {
+        const currentLoanApplicantDetail = usersDetails.find(ele => ele.name === loanData.name);
+        const peopleDetailsUpdateData = { ...currentLoanApplicantDetail };
+        delete peopleDetailsUpdateData[`isLoanTaken`];
+        axios.put(`http://localhost:8080/peopleDetails/${peopleDetailsUpdateData.id}`, peopleDetailsUpdateData).then(res => {
+            setMarkCompleted(true)
+        }).catch(err => {
+            console.log(err);
+        })
+
+    }
     return (
         Object.keys(loanData).length > 0 && Object.keys(currentUserDetails).length > 0 && <div className='container'>
-            <div className="row mb-2">
+            <div className="row  mb-2">
                 <div className='subform-title'>Basic Details</div>
                 {loanBasicDetailTemplate.map((ele, ind) => (
                     <div className='col mb-1' key={ind}>
@@ -106,7 +128,7 @@ export default function ViewLoan() {
                         <div className='val'>{loanData[ele.name]}</div>
                     </div>
                 ))}
-            </div>
+            </div><br></br>
             <div className="row mb-2">
                 <div className='subform-title'>Branch Details</div>
                 {branchDetailsTemplate.map((ele, ind) => (
@@ -115,23 +137,25 @@ export default function ViewLoan() {
                         <div className='val'>{loanData[ele.name]}</div>
                     </div>
                 ))}
-            </div>
+            </div><br></br>
             <div className="row mb-2">
                 <div className='subform-title'>File Details</div>
-                <TableContainer>
+                <TableContainer >
                     <Table>
                         <TableHead>
                             <TableRow>
-                                {fileDatacolumns.map((column) => (
-                                    <TableCell className='loan-detail-title' key={column.field}>{column.headerName}</TableCell>
+                                {fileDatacolumns.map((column, ind) => (
+                                    <TableCell sx={{ color: '#f1f1f1cc' }} className='loan-detail-title' key={ind}>{column.headerName}</TableCell>
                                 ))}
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {loanData[`uploadedFiles`].map((row, ind) => (
                                 <TableRow key={ind}>
-                                    {fileDatacolumns.map((column) => (
-                                        <TableCell onClick={(eve) => { console.log('hi') }} key={column.field}>{row[column.field]}</TableCell>
+                                    {fileDatacolumns.map((column, indexVal) => (
+                                        <TableCell sx={{ color: '#f1f1f1cc' }} onClick={(eve) => { console.log('hi') }} key={indexVal}>
+                                            {column.field === 'size' ? formatFileSize(row[column.field]) : row[column.field]}
+                                        </TableCell>
                                     ))}
                                 </TableRow>
                             ))}
@@ -139,23 +163,30 @@ export default function ViewLoan() {
                     </Table>
                 </TableContainer>
             </div>
-            <div className="row">{console.log()}
-                {((currentUserDetails.role === 'BANK_MANAGER' && currentUserDetails.branch === loanData.branch) || (currentUserDetails.role === 'LOAN_OFFICER' && currentUserDetails.name === loanData.loanOfficer)) && <div className='col button-container'>
-                    {(currentUserDetails.role === 'BANK_MANAGER' && currentUserDetails.branch === loanData.branch) && <button className='btn btn-primary button-placement' onClick={() => { handleOpenDialog('assignLoanDialog'); setButtonData([loanData[`loanOfficer`] === '-' ? 'Assign' : 'Reassign']); setDialogTitle('Assign loan') }}>
-                        {loanData[`loanOfficer`] === '-' ? 'Assign' : 'Reassign'}
-                    </button>}
+            <div className="row">{console.log(loanData.status)}
+                {(
+                    (currentUserDetails.role === 'BANK_MANAGER' && currentUserDetails.branch === loanData.branch) || (currentUserDetails.role === 'LOAN_OFFICER' && currentUserDetails.name === loanData.loanOfficer)
+                ) && (loanData.status !== 'Approved' && (loanData.status !== 'Rejected')) && <div className='col button-container'>
+                        {(currentUserDetails.role === 'BANK_MANAGER' && currentUserDetails.branch === loanData.branch) && <button className='btn btn-primary button-placement' onClick={() => { handleOpenDialog('assignLoanDialog'); setButtonData([loanData[`loanOfficer`] === '-' ? 'Assign' : 'Reassign']); setDialogTitle('Assign loan') }}>
+                            {loanData[`loanOfficer`] === '-' ? 'Assign' : 'Reassign'}
+                        </button>}
 
-                    <DynamicDialog
-                        open={openDialog}
-                        dialogTitle={dialogTitle}
-                        onClose={handleCloseDialog}
-                        dialogContent={dialogContent}
-                        dialogProps={currentUserDetails?.branchMembers ? currentUserDetails?.branchMembers : []}
-                        buttonData={buttonData}
-                    />
-                    <button className='btn btn-primary button-placement' onClick={() => { handleOpenDialog('actionDialog'); setButtonData(['Reject', 'Approve']); setDialogTitle('Take action') }}>
-                        Take action
-                    </button>
+                        <DynamicDialog
+                            open={openDialog}
+                            dialogTitle={dialogTitle}
+                            onClose={handleCloseDialog}
+                            dialogContent={dialogContent}
+                            dialogProps={currentUserDetails?.branchMembers ? currentUserDetails?.branchMembers : []}
+                            buttonData={buttonData}
+                        />
+                        {(loanData.status !== 'Approved' && (loanData.status !== 'Rejected')) && <button className='btn btn-primary button-placement' onClick={() => { handleOpenDialog('actionDialog'); setButtonData(['Reject', 'Approve']); setDialogTitle('Take action') }}>
+                            Take action
+                        </button>}
+
+                    </div>}
+                {(currentUserDetails.role === 'BANK_MANAGER' && currentUserDetails.branch === loanData.branch && (loanData.status === 'Approved' || loanData.status === 'Rejected') && !markCompleted) && <div className='col button-container'> <button className='btn btn-primary button-placement' onClick={loanCompletion}>
+                    Mark Complete
+                </button>
                 </div>}
             </div>
         </div>

@@ -13,6 +13,7 @@ export default function LoanForm({ userData }) {
     const emailId = localStorage.getItem('emailId');
     const usersDetails = useSelector((state) => state.user.user);
     const [currentUserDetails, setCurrentUserDetails] = useState({});
+    let peopleId = '';
     // const currentUserDetails = { name: 'balaji', dateOfBirth: '2023-05-22', gender: 'male', panId: 'ABXXX5XXXXC', email: 'balaji@gmail.com', branch: 'bangalore' }
     const formikForm = useFormik({
         initialValues: {
@@ -34,7 +35,6 @@ export default function LoanForm({ userData }) {
         ),
         onSubmit: (values) => {
             if (Object.keys(formikForm.errors).length === 0) {
-                const paramData = { branch: formikForm.values.branch };
                 let requestData = values;
                 basicDetailFields.forEach(ele => {
                     requestData[ele.name] = currentUserDetails[ele.name];
@@ -52,11 +52,23 @@ export default function LoanForm({ userData }) {
                 requestData[`status`] = 'pending';
                 requestData[`loanOfficer`] = '-'
                 axios.post('http://localhost:8080/loanDetails', requestData).then(res => {
-                    console.log(paramData.branch[0])
                     console.log(res)
                 }).catch(err => {
                     console.log(err);
-                })
+                });
+                setTimeout(() => {
+                    let payloadData = { ...currentUserDetails };
+                    payloadData[`isLoanTaken`] = true;
+                    let queryParams = { name: currentUserDetails.name };
+                    axios.put(`http://localhost:8080/peopleDetails/${payloadData.id}`, payloadData, { params: queryParams }).then(res => {
+                        console.log(res)
+                        if (res) {
+                            navigate('/');
+                        }
+                    }).catch(err => {
+                        console.log(err);
+                    });
+                }, 1000)
 
             }
             console.log(values)
@@ -64,7 +76,7 @@ export default function LoanForm({ userData }) {
 
     });
     const basicDetailFields = [
-        { name: 'name', displayName: 'Applicant Name', type: 'text' },
+        { name: 'name', displayName: 'Name', type: 'text' },
         { name: 'dateOfBirth', displayName: 'Date of birth', type: 'date' },
         { name: 'gender', displayName: 'Gender', type: 'text' },
         { name: 'panId', displayName: 'PAN', type: 'text' },
@@ -106,21 +118,23 @@ export default function LoanForm({ userData }) {
         } else {
             if (emailId && emailId.length > 0) {
                 const dataVal = usersDetails.find(ele => ele.email === emailId);
-                setCurrentUserDetails(dataVal);
-              
+                
+                
+                 setCurrentUserDetails(dataVal);
+
             }
         }
     }, [dispatch, usersDetails, emailId, currentUserDetails.role, navigate])
     console.log(formikForm)
     return Object.keys(currentUserDetails).length > 0 && (
-        <div className='container loan-form-container'>
+        <div className=' loan-form-container'>
             <form onSubmit={formikForm.handleSubmit}>
-                <div className='row mb-3 align-items-start'>
+                <div className='row mb-3 align-items-start fff'>
                     <div className='subform-title mb-3'>Basic Details</div>
                     {basicDetailFields.map((ele, ind) => (
                         <div className='col ' key={ind}>
                             <label htmlFor={ele.name} className="form-label">{ele.displayName}</label>
-                            <input name={ele.name} onBlur={formikForm.handleBlur} disabled={currentUserDetails[ele.name] ? true : false} defaultValue={currentUserDetails[ele.name]} type={ele.type} className="form-control" id={ele.name} />
+                            <input name={ele.name} onBlur={formikForm.handleBlur} disabled={currentUserDetails[ele.name] ? true : false} defaultValue={currentUserDetails[ele.name]} type={ele.type} className="form-control form-label-control" id={ele.name} />
                         </div>
                     ))}
                 </div>
@@ -153,7 +167,6 @@ export default function LoanForm({ userData }) {
                         }} >calculate</button>
                     </div>
                 </div>
-
                 <div className='row'>
                     <div className='subform-title mb-3' onBlur={formikForm.handleBlur}>Loan proofs</div>
                     <div className='col'>

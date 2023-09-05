@@ -39,12 +39,16 @@ body {
 
 .grid-container {
   display: grid;
-  grid-template-columns: 260px 1fr 1fr 1fr;
   grid-template-rows: 0.2fr 3fr;
   grid-template-areas:
     'sidebar header header header'
     'sidebar main main main';
-  height: 100vh;
+  height: 90vh;
+}
+
+.subform-title {
+  font-size: 20px;
+  font-weight: 600;
 }
 
 .header {
@@ -64,6 +68,7 @@ body {
 #sidebar {
   grid-area: sidebar;
   height: 100%;
+  width: 195px;
   background-color: #263043;
   overflow-y: auto;
   transition: all 0.5s;
@@ -86,6 +91,7 @@ body {
   margin-top: 15px;
   font-size: 20px;
   font-weight: 700;
+  cursor: pointer;
 }
 
 .sidebar-list {
@@ -158,6 +164,8 @@ body {
       'main';
   }
 
+  
+
   #sidebar {
     display: none;
   }
@@ -177,6 +185,7 @@ body {
     gap: 10px;
     margin-bottom: 0;
   }
+ 
 
   .charts {
     grid-template-columns: 1fr;
@@ -188,8 +197,50 @@ body {
   .header-left {
     display: none;
   }
+ 
+  
 }
 
 .header .header-right a {
   margin-right: 10px;
 }
+
+.dialog-textarea {
+  color: #fcfcfc;
+  background-color: #263043
+}
+
+.dialog-textarea::placeholder {
+  color: #fcfcfc;
+}
+
+.dialog-textarea:focus {
+  color: #fcfcfc;
+  background-color: #263043;
+}
+/*  
+@media (min-width: 320px) {
+  .fff {
+      display: block !important;
+  }
+
+
+}
+
+
+@media (min-width: 500px) {
+  .fff {
+      display: flex !important;
+  }
+
+
+}
+*/
+@media (min-width :1024px) {
+  .fff {
+      display: flex !important;
+  }
+} 
+
+
+ 

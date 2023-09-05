@@ -2,7 +2,7 @@ import { useFormik } from 'formik'
 import * as Yup from "yup"
 import '../styles/login.css'
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 export default function Loginpage() {
     const navigate = useNavigate();
@@ -10,6 +10,7 @@ export default function Loginpage() {
     const passwordVal = 'password';
     const [errorData, setErrorData] = useState('');
     const [passwordVisisblity, setPasswordVisiblity] = useState(false);
+
     const formikForm = useFormik({
         initialValues: {
             email: "",
@@ -29,7 +30,7 @@ export default function Loginpage() {
                         });
                         if (indexVal !== -1) {
                             navigate('/');
-                            //   window.location.reload();
+                            // window.location.reload();
                             setErrorData('');
                             localStorage.setItem('emailId', values.email)
                         } else {
@@ -56,6 +57,12 @@ export default function Loginpage() {
         }
         setPasswordVisiblity(visiblity);
     }
+    useEffect(() => {
+        let emailId = localStorage.getItem('emailId');
+        if (emailId && emailId.length > 0) {
+            navigate('/');
+        }
+    }, [navigate])
     return (
         <div className="login-container">
             <div className='form-container'>
@@ -73,7 +80,9 @@ export default function Loginpage() {
                     </input><i style={{ cursor: 'pointer' }} id='show-password' className={formikForm.values.password.length > 0 && passwordVisisblity ? 'bi bi-eye-slash-fill' : 'bi bi-eye-fill'}
                         onMouseUp={() => { handlePasswordVisiblity(false) }} onMouseDown={() => { handlePasswordVisiblity(true) }}></i>
                     <div className={formikForm.touched.password && formikForm.errors.password ? 'login-error-message' : ''}>{formikForm.touched.password && formikForm.errors.password ? formikForm.errors.password : ''}</div><br />
-                    <button type='submit' className='button-class submit-button login-submit'>Submit</button> <br />
+                    <div className="login-button ">
+                        <button type='submit' className='button-class submit-button login-submit'>Submit</button> <br />
+                    </div>
 
                 </form >
             </div>

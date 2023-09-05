@@ -1,19 +1,167 @@
 {
-  "posts": [
+  "credentials": [
     {
-      "id": 1,
-      "title": "json-server",
-      "author": "typicode"
+      "email": "balaji@gmail.com",
+      "password": "Balaji@1234"
+    },
+    {
+      "email": "ashlesh@gmail.com",
+      "password": "Ashlesh@1234"
+    },
+    {
+      "email": "aravathammayya@gmail.com",
+      "password": "Arava@1234"
+    },
+    {
+      "email": "venaktesh@gmail.com",
+      "password": "Venkatesh@1234"
+    },
+    {
+      "email": "durgaprasad@gmail.com",
+      "password": "Durgaprasad@1234"
+    },
+    {
+      "email": "raj@gmail.com",
+      "password": "Raj@1234"
+    },
+    {
+      "email": "kumar@gmail.com",
+      "password": "Kumar@1234"
     }
   ],
-  "comments": [
+  "peopleDetails": [
     {
       "id": 1,
-      "body": "some comment",
-      "postId": 1
+      "name": "Balaji",
+      "email": "balaji@gmail.com",
+      "gender": "male",
+      "role": "CUSTOMER",
+      "branch": "bangalore",
+      "dateOfBirth": "2023-05-05",
+      "panId": "ABCDE2211W"
+    },
+    {
+      "id": 2,
+      "name": "ashlesh",
+      "email": "ashlesh@gmail.com",
+      "role": "BANK_MANAGER",
+      "branchMembers": [
+        {
+          "name": "arava",
+          "email": "aravathammayya@gmail.com"
+        }
+      ],
+      "branch": "bangalore"
+    },
+    {
+      "id": 3,
+      "name": "arava",
+      "branch": "bangalore",
+      "role": "LOAN_OFFICER",
+      "email": "aravathammayya@gmail.com"
+    },
+    {
+      "id": 4,
+      "name": "venkatesh",
+      "branch": "chennai",
+      "role": "BANK_MANAGER",
+      "email": "venaktesh@gmail.com",
+      "branchMembers": [
+        {
+          "name": "durga Prasad",
+          "email": "durgaprasad@gmail.com"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "durga Prasad",
+      "email": "durgaprasad@gmail.com",
+      "role": "LOAN_OFFICER"
+    },
+    {
+      "id": 6,
+      "name": "raj",
+      "email": "raj@gmail.com",
+      "gender": "male",
+      "role": "CUSTOMER",
+      "dateOfBirth": "1992-05-05",
+      "branch": "chennai",
+      "panId": "ZBCDE2211W"
     }
   ],
-  "profile": {
-    "name": "typicode"
-  }
+  "loanDetails": [
+    {
+      "loanAmount": 1000,
+      "loanTenure": 1,
+      "intrestRate": "fixed",
+      "uploadedFiles": [
+        {
+          "name": "fullyfilmy.in_.png",
+          "size": 14104249
+        }
+      ],
+      "totalAmount": 1100,
+      "emiAmount": 91.67,
+      "name": "Balaji",
+      "dateOfBirth": "2023-05-05",
+      "gender": "male",
+      "panId": "ABCDE2211W",
+      "email": "balaji@gmail.com",
+      "branch": "bangalore",
+      "createdTime": "2023-09-05T08:53:53.683Z",
+      "status": "Rejected",
+      "loanOfficer": "arava",
+      "id": 1,
+      "comments": "Rejecting loan"
+    },
+    {
+      "loanAmount": 2000,
+      "loanTenure": 1,
+      "intrestRate": "fixed",
+      "uploadedFiles": [
+        {
+          "name": "Montserrat-Regular (2).ttf",
+          "size": 78616
+        }
+      ],
+      "totalAmount": 2200,
+      "emiAmount": 183.33,
+      "name": "Balaji",
+      "dateOfBirth": "2023-05-05",
+      "gender": "male",
+      "panId": "ABCDE2211W",
+      "email": "balaji@gmail.com",
+      "branch": "bangalore",
+      "createdTime": "2023-09-05T10:48:58.346Z",
+      "status": "Approved",
+      "loanOfficer": "arava",
+      "id": 2,
+      "comments": "Approved"
+    },
+    {
+      "loanAmount": 200000,
+      "loanTenure": 1,
+      "intrestRate": "fixed",
+      "uploadedFiles": [
+        {
+          "name": "Facade.pptx",
+          "size": 608377
+        }
+      ],
+      "totalAmount": 220000,
+      "emiAmount": 18333.33,
+      "name": "Balaji",
+      "dateOfBirth": "2023-05-05",
+      "gender": "male",
+      "panId": "ABCDE2211W",
+      "email": "balaji@gmail.com",
+      "branch": "bangalore",
+      "createdTime": "2023-09-05T11:15:38.885Z",
+      "status": "Approved",
+      "loanOfficer": "arava",
+      "id": 3,
+      "comments": "Approving loan"
+    }
+  ]
 }
