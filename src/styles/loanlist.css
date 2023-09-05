@@ -1,7 +1,51 @@
 @import '../App.css';
 
+
+/* Add styles for the DataGrid component */
+.MuiDataGrid-root {
+    background-color: #384451; /* Background color for the table header */
+    color: white; /* Text color for the table header */
+}
+
+/* Add styles for the pagination */
+.MuiDataGrid-pagination {
+    background-color: #8699ae; /* Background color for pagination */
+    color: white; /* Text color for pagination */
+}
+
+/* Style the pagination buttons */
+.MuiDataGrid-iconSeparator {
+    color: white; /* Color for pagination buttons */
+}
+
+/* Style the selected pagination page */
+.Mui-selected {
+    background-color: #3f51b5; /* Background color for selected pagination page */
+    color: white; /* Text color for selected pagination page */
+}
+
+/* Style the hover effect on pagination buttons */
+.MuiDataGrid-iconSeparator:hover {
+    color: #3f51b5; /* Hover color for pagination buttons */
+}
+
+/* Add styles for page number and arrow marks */
+.MuiPaginationItem-page {
+    color: white; /* Text color for page numbers */
+    font-weight: bold; /* Make page numbers bold */
+}
+
+.MuiDataGrid-iconSeparator svg {
+    fill: white; /* Color for arrow marks */
+}
+.MuiTablePagination-displayedRows,
+.MuiTablePagination-selectLabel {
+    color: white; /* Text color for "Rows per page" and page range */
+}
+  
+
 .table-container {
-    color: white;
+    color: rgb(0, 0, 0);
     height: 100%;
     /* margin: 1rem 3rem 1rem 0rem; */
  }

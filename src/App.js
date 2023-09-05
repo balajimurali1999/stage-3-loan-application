@@ -47,7 +47,7 @@ function App() {
     usersDetails.length > 0 &&
     <>
       {emailId && emailId.length > 0 && <Header OpenSidebar={OpenSidebar} />}
-      <div className={emailId && emailId.length > 0 ? 'grid-container' : ''}>
+      <div className={emailId && emailId.length > 0 ? 'grid-container full-page' : ''}>
         {emailId && emailId.length > 0 && <SideBar
           openSidebarToggle={openSidebarToggle}
           OpenSidebar={OpenSidebar}

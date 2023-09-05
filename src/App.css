@@ -14,8 +14,8 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: #1d2634;
-  color: #9e9ea4;
+  background-color: #bce1e8;
+  color: rgb(0, 0, 0);
   font-family: 'Montserrat', sans-serif;
 }
 
@@ -31,7 +31,7 @@ body {
 }
 
 .close_icon {
-  color: red;
+  color: rgb(0, 0, 0);
   margin-left: 30px;
   margin-top: 10px;
   cursor: pointer;
@@ -45,6 +45,18 @@ body {
     'sidebar main main main';
   height: 90vh;
 }
+
+/* Add this CSS to your existing stylesheet */
+.full-page {
+  height: 100vh; /* 100% viewport height */
+  width: 100vw; /* 100% viewport width */
+  display: grid;
+  grid-template-rows: 0.2fr 3fr;
+  grid-template-areas:
+    'sidebar header header header'
+    'sidebar main main main';
+}
+
 
 .subform-title {
   font-size: 20px;
@@ -69,7 +81,7 @@ body {
   grid-area: sidebar;
   height: 100%;
   width: 195px;
-  background-color: #263043;
+  background-color: #91abb6;
   overflow-y: auto;
   transition: all 0.5s;
   -webkit-transition: all 0.5s;
@@ -111,7 +123,7 @@ body {
 
 .sidebar-list-item>a {
   text-decoration: none;
-  color: #9e9ea4;
+  color: #000000;
 }
 
 .sidebar-responsive {
@@ -124,7 +136,7 @@ body {
   grid-area: main;
   overflow-y: auto;
   padding: 20px;
-  color: rgba(255, 255, 255, 0.95);
+  color: rgba(0, 0, 0, 0.95);
 }
 
 .main-title {
@@ -206,16 +218,16 @@ body {
 }
 
 .dialog-textarea {
-  color: #fcfcfc;
+  color: #000000;
   background-color: #263043
 }
 
 .dialog-textarea::placeholder {
-  color: #fcfcfc;
+  color: #000000;
 }
 
 .dialog-textarea:focus {
-  color: #fcfcfc;
+  color: #000000;
   background-color: #263043;
 }
 /*  

@@ -5,6 +5,10 @@ form {
     height: 100%;
 }
 
+.loan-form-container {
+    margin: 10px; 
+    padding: 20px; 
+  }
 
 .file-name {
     margin: 0.3rem;
@@ -56,7 +60,7 @@ form {
     margin-left: 0.3rem;
 }
 .form-label-control:disabled {
-    background-color: #1d2634;
+    background-color: #b9c6d9;
     border: none;
-    color: #fcfcfc;
+    color: #000000;
  }
