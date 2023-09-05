@@ -67,6 +67,7 @@ export default function Dashboard() {
                     await axios.get('http://localhost:8080/loanDetails').then((res) => {
 
                         if (res.data.length > 0 && currentUserDetails.role === 'BANK_MANAGER') {
+                            
                             const branchData = res.data.filter(ele => ele.branch === currentUserDetails.branch);
                             const rowData = branchData.map(ele => { return { id: ele.id, name: ele.name, status: ele.status, loanOfficer: ele.loanOfficer } })
                             setRowData(rowData)
