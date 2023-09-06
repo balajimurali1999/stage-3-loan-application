@@ -5,20 +5,25 @@ import '../styles/loanlist.css';
 export default function LoanList({ rowData, columns }) {
 
   return (
-    (<div className='table-container'>
+    (<div className='table-container'  >
       <DataGrid
         rows={rowData}
         columns={columns}
         autoHeight // This allows the table to adjust its height based on content
         pagination
         pageSize={2}
+        
         sx={{
-          color: '#f1f1f1cc',
+          color: '#000',
           '& .MuiDataGrid-row:nth-of-type(odd)': {
-            backgroundColor: '#1c2f44', // Style for odd rows
+            backgroundColor: '#ffffff', // Style for odd rows
           },
           '& .MuiDataGrid-row:nth-of-type(even)': {
-            backgroundColor: '#2a3342', // Style for even rows
+            backgroundColor: '#91abb6', // Style for even rows
+          },
+          '& .MuiDataGrid-columnHeaderTitle': {
+            fontWeight: 'bold',
+            fontSize:'14px' // Style for even rows
           }, // Font color for all cells (columns)
         }}
       />

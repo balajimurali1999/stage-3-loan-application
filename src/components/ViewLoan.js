@@ -101,7 +101,7 @@ export default function ViewLoan() {
     const loanCompletion = () => {
         const currentLoanApplicantDetail = usersDetails.find(ele => ele.name === loanData.name);
         const peopleDetailsUpdateData = { ...currentLoanApplicantDetail };
-        delete peopleDetailsUpdateData[`isLoanTaken`];
+        delete peopleDetailsUpdateData[`existingLoanId`];
         axios.put(`http://localhost:8080/peopleDetails/${peopleDetailsUpdateData.id}`, peopleDetailsUpdateData).then(res => {
             setMarkCompleted(true)
         }).catch(err => {
@@ -145,7 +145,7 @@ export default function ViewLoan() {
                         <TableHead>
                             <TableRow>
                                 {fileDatacolumns.map((column, ind) => (
-                                    <TableCell sx={{ color: '#f1f1f1cc' }} className='loan-detail-title' key={ind}>{column.headerName}</TableCell>
+                                    <TableCell sx={{ color: '#000' }} className='loan-detail-title' key={ind}>{column.headerName}</TableCell>
                                 ))}
                             </TableRow>
                         </TableHead>
@@ -153,7 +153,7 @@ export default function ViewLoan() {
                             {loanData[`uploadedFiles`].map((row, ind) => (
                                 <TableRow key={ind}>
                                     {fileDatacolumns.map((column, indexVal) => (
-                                        <TableCell sx={{ color: '#f1f1f1cc' }} onClick={(eve) => { console.log('hi') }} key={indexVal}>
+                                        <TableCell sx={{ color: '#000' }} onClick={(eve) => { console.log('hi') }} key={indexVal}>
                                             {column.field === 'size' ? formatFileSize(row[column.field]) : row[column.field]}
                                         </TableCell>
                                     ))}

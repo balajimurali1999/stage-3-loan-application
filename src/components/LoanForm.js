@@ -49,7 +49,7 @@ export default function LoanForm({ userData }) {
                     }
                 });
                 requestData[`createdTime`] = new Date();
-                requestData[`status`] = 'pending';
+                requestData[`status`] = 'Pending';
                 requestData[`loanOfficer`] = '-'
                 axios.post('http://localhost:8080/loanDetails', requestData).then(res => {
                     console.log(res)
@@ -58,7 +58,7 @@ export default function LoanForm({ userData }) {
                 });
                 setTimeout(() => {
                     let payloadData = { ...currentUserDetails };
-                    payloadData[`isLoanTaken`] = true;
+                    payloadData[`existingLoanId`] = requestData.id;
                     let queryParams = { name: currentUserDetails.name };
                     axios.put(`http://localhost:8080/peopleDetails/${payloadData.id}`, payloadData, { params: queryParams }).then(res => {
                         console.log(res)

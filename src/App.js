@@ -11,11 +11,15 @@ import LoanList from './components/LoanList';
 import ViewLoan from './components/ViewLoan';
 import Loginpage from "./components/Login";
 import Dashboard from "./components/Dashboard";
+import ApplicationTracker from "./components/applicationTracker/ApplicationTracker";
+import { getLoanDetails } from "./redux/LoanListReducer";
+import LoanStatistics from "./components/LoanStatistics";
 function App() {
   const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const usersDetails = useSelector((state) => state.user.user);
+  const loanDetials = useSelector((state) => state.loan.loan);
   const [currentUserDetails, setCurrentUserDetails] = useState({});
   const [emailId, setEmailId] = useState('');
   const OpenSidebar = () => {
@@ -34,12 +38,11 @@ function App() {
         if (!emailId) {
           navigate('/login');
         } else {
-          console.log(emailId)
-          const dataVal = usersDetails.find(ele => ele.email === emailId);
-          console.log(dataVal)
-          setCurrentUserDetails(dataVal)
-          localStorage.setItem('role', currentUserDetails.role)
-        }
+           const dataVal = usersDetails.find(ele => ele.email === emailId);
+           setCurrentUserDetails(dataVal)
+          localStorage.setItem('role', currentUserDetails.role);
+          dispatch(getLoanDetails());
+         }
       }
     }
   }, [usersDetails, dispatch, emailId, currentUserDetails, navigate])
@@ -59,8 +62,9 @@ function App() {
           <Route path='loans' element={<LoanList></LoanList>}></Route>
           <Route path='/viewLoan/:id' element={<ViewLoan></ViewLoan>}></Route>
           <Route path="/login" Component={currentUserDetails && Object.keys(currentUserDetails).length === 0 && Loginpage}></Route>
+          <Route path="/trackLoan/:id" Component={ApplicationTracker}></Route>
+          <Route path="/loanStatistics" Component={LoanStatistics}></Route>
         </Routes>
-        {/* <ApplicationTracker /> */}
       </div>
     </>
   );

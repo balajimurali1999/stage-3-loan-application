@@ -6,6 +6,7 @@ import axios from 'axios';
 import '../styles/dashboard.css'
 import LoanList from './LoanList';
 import ViewCell from './ViewCell';
+
 export default function Dashboard() {
 
     const dispatch = useDispatch();
@@ -100,7 +101,7 @@ export default function Dashboard() {
                     <div className="subform-title">User Details</div>
                     <div className="container">
                         {userDetailDisplayTemplate.map((ele, ind) => (
-                            <div key={ind} className="row array-data form-label">{ele.displayName} :  {currentUserDetails[ele.name]}</div>
+                          <b>  <div key={ind} className="row array-data form-label">{ele.displayName} :  {currentUserDetails[ele.name]}</div></b>
                         ))
 
                         }
@@ -109,7 +110,7 @@ export default function Dashboard() {
                                 <div className=" subform-title">Branch Members</div>
                                 {currentUserDetails.branchMembers.map((ele, ind) => (
                                     <div key={ele}>
-                                        <div className="row form-label">Name : {ele.name}</div>
+                                        <div className="row  form-label">Name : {ele.name}</div>
                                         <div className="row form-label">Email : {ele.email}</div>
                                     </div>
                                 ))}
@@ -121,7 +122,7 @@ export default function Dashboard() {
                 <div className="col  data-table-container"   >
                     {currentUserDetails.role === 'BANK_MANAGER' &&
                         <>
-                            <div className=" subform-title">Pending  Loans</div> <br></br>
+                            <div className=" subform-title">Branch  Loans</div> <br></br>
                             <LoanList columns={managerTableColumns} rowData={rowData} />
                         </>
                     }

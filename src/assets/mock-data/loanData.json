@@ -162,6 +162,30 @@
       "loanOfficer": "arava",
       "id": 3,
       "comments": "Approving loan"
+    },
+    {
+      "loanAmount": 20000,
+      "loanTenure": 1,
+      "intrestRate": "fixed",
+      "uploadedFiles": [
+        {
+          "name": "men_4_medium.avif",
+          "size": 10658
+        }
+      ],
+      "totalAmount": 22000,
+      "emiAmount": 1833.33,
+      "name": "Balaji",
+      "dateOfBirth": "2023-05-05",
+      "gender": "male",
+      "panId": "ABCDE2211W",
+      "email": "balaji@gmail.com",
+      "branch": "bangalore",
+      "createdTime": "2023-09-05T15:36:08.322Z",
+      "status": "Approved",
+      "loanOfficer": "-",
+      "id": 4,
+      "comments": "data"
     }
   ]
 }

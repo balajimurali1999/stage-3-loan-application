@@ -1,135 +1,81 @@
-/* Reset default margins and paddings */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  /* Apply fonts, background, and text color */
-  body {
-    font-family: Arial, sans-serif;
-    background-color: #f7f7f7;
-    color: #333;
-  }
-  .dashboard-container {
-    margin: 0 auto; /* Center horizontally */
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Container for the entire dashboard */
-  .dashboard-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Subform title */
-  .subform-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 10px;
+@import '../App.css';
 
-  }
-  
-  /* User Details container */
-  .user-details-container {
-    background-color: #f3f3f3;
-    padding: 15px;
-    border-radius: 5px;
-    margin-bottom: 20px;
-    color: #333; /* Text color added */
-  }
-  
-  /* Individual user detail */
-  .user-detail {
-    margin-bottom: 10px;
-    color: #555; /* Text color added */
-  }
-  
-  /* Loans Assigned section */
-  .loans-assigned {
-    background-color: #fff; /* White background for better contrast */
-    padding: 15px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-  }
-  
-  /* Loan list title */
-  .subform-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #333; /* Text color added */
-    
-  }
-  
-  /* Branch Members container */
-  .branch-members-container {
-    margin-top: 20px;
-  }
-  
-  /* Branch Member details */
-  .branch-member {
-    background-color: #f3f3f3;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-  }
-  
-  /* Container for generic content */
-  .container {
-    color: #333; /* Set a suitable text color */
-  }
-  
-  /* Data Table container */
-  .data-table-container {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.719);
-  }
-  
+.data-table-container {
+    width: 100% !important;
+}
 
+.array-data {
+ color: #333 !important;
+}
+.dashboard-container {
+    width: 100% !important;
+     color: #333 !important;
+}
 
-  /* Table styles */
-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  /* Table header styles */
-  th {
-    padding: 12px;
-    text-align: left;
-    background-color: #f3f3f3; /* Background color for header */
-    color: #333; /* Text color for header */
-    font-weight: bold;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  /* Table cell styles */
-  td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  
-  /* Responsive layout adjustments */
-  @media (max-width: 768px) {
+@media (min-width: 1024px) {
     .dashboard-container {
-      padding: 10px;
+        width: 100% !important;
     }
+
+    .content-row {
+        display: flex !important;
+     }
+
     .data-table-container {
-      padding: 10px;
+        width: 65% !important;
     }
-    .subform-title {
-      font-size: 20px;
+
+}
+
+@media (min-width : 320px) {
+
+    .dashboard-container {
+        width: 30% !important;
     }
-  }
-  
+
+    .content-row {
+        display: block;
+     }
+    .array-data {
+        width: 150% !important;
+
+    }
+}
+
+@media (min-width : 375px) {
+
+    .dashboard-container {
+        width: 30% !important;
+    }
+
+    .content-row {
+        display: block;
+    }
+}
+
+@media (min-width : 425px) {
+
+    .dashboard-container {
+        width: 40% !important;
+        margin-left: 1rem;
+    }
+
+    .content-row {
+        display: block;
+    }
+}
+
+@media (min-width : 768px) {
+
+    .dashboard-container {
+        width: 100% !important;
+    }
+
+    .content-row {
+        display: block;
+     }
+
+    .data-table-container {
+        width: 60% !important;
+    }
+}

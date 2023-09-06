@@ -28,7 +28,7 @@ function Header({ OpenSidebar }) {
             </div>
             <div className="header-left">Hello {userName}!</div>
             <div className="header-right">
-                <a href="/" title="logout" style={{textDecoration:"none"}}>
+                <a href="/" onClick={() => localStorage.clear()} title="logout" style={{textDecoration:"none"}}>
                     <FaSignOutAlt onClick={() => localStorage.clear()} className="icon" /> Logout
                 </a>
             </div>

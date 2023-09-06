@@ -13,13 +13,13 @@ const availableSidebarComponents = [
         icon: <MdGrading className="icon" />,
         label: "Loan List Statistics",
         role: "LOAN_OFFICER",
-        link: "/loans",
+        link: "/loanStatistics",
     },
     {
         icon: <MdGrading className="icon" />,
         label: "Loan List Statistics",
         role: "BANK_MANAGER",
-        link: "/loans",
+        link: "/loanStatistics",
     },
     {
         icon: <MdAssignmentAdd className="icon" />,
@@ -40,7 +40,7 @@ function SideBar({ openSidebarToggle, OpenSidebar, user }) {
     let filteredComponents = availableSidebarComponents.filter(
         (component) => component.role === user.role
     );
-    if (user.role === 'CUSTOMER' && Object.keys(user).includes('isLoanTaken')) {
+    if (user.role === 'CUSTOMER' && Object.keys(user).includes('existingLoanId')) {
         filteredComponents = filteredComponents.filter(ele => ele.label !== 'Apply Loan');
     }
     return (
@@ -60,9 +60,11 @@ function SideBar({ openSidebarToggle, OpenSidebar, user }) {
             <ul className="sidebar-list">
                 {filteredComponents.map((component, index) => (
                     <li className="sidebar-list-item" key={index}>
-                        <Link to={`${component.link}`}>
+                        {user.existingLoanId ? <Link to={`${component.link}/${user.existingLoanId}`}>
                             {component.icon} {component.label}
-                        </Link>
+                        </Link> : <Link to={`${component.link}`}>
+                            {component.icon} {component.label}
+                        </Link>}
                     </li>
                 ))}
             </ul>

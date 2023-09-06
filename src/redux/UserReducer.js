@@ -14,20 +14,17 @@ const initialState = {
 let UserReducer = createSlice({
     name: "User",
     initialState,
-    extraReducers: (builder) => {console.log('hi')
+    extraReducers: (builder) => {
+        console.log('hi')
         builder.addCase(getUserDetails.fulfilled, (state, action) => {
             state.user = action.payload;
-            console.log(state.user)
-            console.log('done')
+
         });
         builder.addCase(getUserDetails.pending, () => {
-            console.log("pending");
 
         });
         builder.addCase(getUserDetails.rejected, () => {
-            console.log("rejected");
         });
-        console.log('f')
     },
 });
 export default UserReducer.reducer;

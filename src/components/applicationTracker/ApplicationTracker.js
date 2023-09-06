@@ -1,107 +1,82 @@
-import React, { Fragment, useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { fetchApplicationsByUserIdAsync, selectApplications } from './appTrackerSlice';
- import Stepper from './Stepper';
-
- 
-const RequestDetails = () => {
-  console.log("Request Detail");
-  return <h1>
-    Request Details
-  </h1>
-
-}
-const Payment = () => {
-  console.log("Payment");
-  return <h1>
-    Payment
-  </h1>
-
-}
-const Confirmation = () => {
-  console.log("Confirmantion");
-  return <h1>
-    Confirmantion
-  </h1>
-}
-
+import React, { useState, useEffect } from 'react';
+import StepComponent from './StepComponent';
+import '../../App.css'
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getUserDetails } from '../../redux/UserReducer';
+import { getLoanDetails } from '../../redux/LoanListReducer';
 function ApplicationTracker() {
-  const dispatch = useDispatch();
-  const applications = useSelector(selectApplications);
-
   const [activeStep, setActiveStep] = useState(0);
-
   const steps = [
-    'Request details',
-    'Payment',
-    'Booking confirmation',
+    { label: 'Pending' },
+    { label: 'Underwriting' },
+    { label: 'Approval Process' },
   ];
-
-  const getSectionComponent = () => {
-    switch (activeStep) {
-      case 0: return <RequestDetails />;
-      case 1: return <Payment />;
-      case 2: return <Confirmation />;
-      default: return null;
-    }
-  }
+  const loanDetailTemplate = [
+    { name: 'loanAmount', displayName: 'Loan Amount' },
+    { name: 'loanTenure', displayName: 'Loan Tenure' },
+    { name: 'intrestRate', displayName: 'Intrest Rate' },
+    { name: 'totalAmount', displayName: 'Total Amount' },
+    { name: 'emiAmount', displayName: 'EMI amount' }
+  ];
+  const branchDetailsTemplate = [
+    { name: 'branch', displayName: 'Branch' },
+    { name: 'loanOfficer', displayName: 'Loan Officer', },
+    { name: 'status', displayName: 'status' }]
+  const [stepperData, setStepperData] = useState(steps);
+  const usersDetails = useSelector((state) => state.user.user);
+  const loanData = useSelector((state) => state.loan.loan);
+  const [loanDetails, setLoanDetails] = useState({});
+  const navigate = useNavigate();
+  const [currentUserDetails, setCurrentUserDetails] = useState({});
+  const dispatch = useDispatch();
+  const { id } = useParams();
 
   useEffect(() => {
-    dispatch(fetchApplicationsByUserIdAsync(1));
-  }, [dispatch]);
- 
+    const roleData = localStorage.getItem('role')
+    if (roleData !== 'CUSTOMER') {
+      navigate('/')
+    }
+    const emailId = localStorage.getItem('emailId');
 
+    if (usersDetails.length === 0) {
+      dispatch(getUserDetails());
+      dispatch(getLoanDetails());
+    } else {
+      const dataVal = usersDetails.find(ele => ele.email === emailId);
+      const idVal = parseInt(id);
+      setCurrentUserDetails(dataVal);
+      const loandetailData = loanData.find(ele => ele.id === idVal);
+      setLoanDetails(loandetailData);
+
+
+
+    }
+  }, [dispatch, id, loanData, navigate, usersDetails])
   return (
-    <Fragment>
-      <div className='container '>
-        <div className="row">
-          <div className='progresses'>
-            <h1>Application Tracker</h1>
+    <div>
+      <div className='subform-title'>Application Tracker</div>
+      {Object.keys(currentUserDetails).length > 0 && Object.keys(loanDetails).length > 0 && <StepComponent steps={stepperData} activeStep={activeStep} LoanDetailStatus={loanDetails.status} />}
+      <div className="row mb-2">
+        <div className='subform-title'>Loan Details</div>
+        {loanDetailTemplate.map((ele, ind) => (
+          <div className='col' key={ind}>
+            <div className='loan-detail-title'>{ele.displayName} </div>
+            <div className='val'>{loanDetails[ele.name]}</div>
           </div>
-        </div>
-        <div className="row align-items-start ">
-          <div className='col'>
-            <table className="table">
-              <thead>
-                <tr>
-                  <th scope="col">ID</th>
-                  <th scope="col">Customer Name</th>
-                  <th scope="col">Loan Type</th>
-                  <th scope="col">Loan Status</th>
-                  <th scope="col">Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {applications && applications.map((application,ind) => {
-                    return (
-                      <tr key={ind}>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                        <td>@mdo</td>
-                      </tr>
-                    );
-                  })
-                }
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div className='row' style={{margin: "auto 10px"}}>
-          <div className='col-3' style={{backgroundColor: "aliceblue", padding: "10px"}}>
-            <Stepper steps={steps}
-              activeStep={activeStep}
-              setActiveStep={setActiveStep}
-               />
-          </div>
-          <div className='col-9' style={{padding: "15px"}}>
-            Content Here
-          </div>
-        </div>
+        ))}
       </div>
-    </Fragment>
-  )
+      <div className="row mb-2">
+                <div className='subform-title'>Branch Details</div>
+                {branchDetailsTemplate.map((ele, ind) => (
+                    <div className='col' key={ind}>
+                        <div className='loan-detail-title'>{ele.displayName} </div>
+                        <div className='val'>{loanDetails[ele.name]}</div>
+                    </div>
+                ))}
+            </div>
+    </div>
+  );
 }
 
 export default ApplicationTracker;

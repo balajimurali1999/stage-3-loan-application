@@ -3,19 +3,19 @@
 
 /* Add styles for the DataGrid component */
 .MuiDataGrid-root {
-    background-color: #384451; /* Background color for the table header */
-    color: white; /* Text color for the table header */
+    background-color: #8096ac; /* Background color for the table header */
+    color: rgb(0, 0, 0); /* Text color for the table header */
 }
 
 /* Add styles for the pagination */
 .MuiDataGrid-pagination {
     background-color: #8699ae; /* Background color for pagination */
-    color: white; /* Text color for pagination */
+    color: rgb(0, 0, 0); /* Text color for pagination */
 }
 
 /* Style the pagination buttons */
 .MuiDataGrid-iconSeparator {
-    color: white; /* Color for pagination buttons */
+    color: rgb(98, 71, 71); /* Color for pagination buttons */
 }
 
 /* Style the selected pagination page */
@@ -40,7 +40,7 @@
 }
 .MuiTablePagination-displayedRows,
 .MuiTablePagination-selectLabel {
-    color: white; /* Text color for "Rows per page" and page range */
+    color: rgb(0, 0, 0); /* Text color for "Rows per page" and page range */
 }
   
 
@@ -94,7 +94,7 @@
 
 .view-button {
     text-decoration: underline;
-    color: white;
+    color: rgb(0, 0, 0);
     font-weight: 700;
     font-size: 14px;
     cursor: pointer;

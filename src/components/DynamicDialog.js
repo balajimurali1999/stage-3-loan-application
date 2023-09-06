@@ -28,8 +28,8 @@ const DynamicDialog = ({ open, onClose, dialogContent, dialogTitle, dialogProps,
         <div className='col'>
             <FormControl fullWidth>
 
-                <InputLabel sx={{backgroundColor:'#1d2634',color:'#f1f1f1cc'}} id="dropdown-label">Select</InputLabel>
-                <Select sx={{backgroundColor:'#1d2634',color:'#f1f1f1cc'}}
+                <InputLabel  id="dropdown-label">Select</InputLabel>
+                <Select 
                     labelId="dropdown-label"
                     id="dropdown"
                     label='select'
@@ -48,7 +48,7 @@ const DynamicDialog = ({ open, onClose, dialogContent, dialogTitle, dialogProps,
     </div>); console.log(dialogContent)
     return (
         <Dialog  fullWidth open={open} onClose={handleClose}>
-            <DialogTitle sx={{backgroundColor:'#1d2634',color:'#f1f1f1cc'}}>{dialogTitle}</DialogTitle>
+            <DialogTitle >{dialogTitle}</DialogTitle>
             <IconButton
                 aria-label="close"
                 onClick={() => handleClose('closeIcon')}
@@ -61,11 +61,11 @@ const DynamicDialog = ({ open, onClose, dialogContent, dialogTitle, dialogProps,
             >
                 <CloseIcon />
             </IconButton>
-            <DialogContent sx={{backgroundColor:'#1d2634',color:'#f1f1f1cc'}} dividers>{dialogContent === 'assignLoanDialog' && assignLoanTemplate}
+            <DialogContent  dividers>{dialogContent === 'assignLoanDialog' && assignLoanTemplate}
                 {dialogContent === 'actionDialog' && actionDialogtemplate}
                 {errorMessageVisiblity && <div className='error-message'>{dialogContent === 'assignLoanDialog' ? 'Select an option' : 'Enter comments'}</div>}
             </DialogContent>
-            <DialogActions sx={{backgroundColor:'#1d2634',color:'#f1f1f1cc'}}>
+            <DialogActions >
                 <Button onClick={() => { handleClose('Cancel') }} color="primary">
                     Cancel
                 </Button>
