@@ -10,11 +10,11 @@ import TableRow from '@mui/material/TableRow';
 import DynamicDialog from '../components/DynamicDialog'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserDetails } from "../redux/UserReducer";
 export default function ViewLoan() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const usersDetails = useSelector((state) => state.user.user);
+    const loanDetails = useSelector((state) => state.loan.loan);
     const [currentUserDetails, setCurrentUserDetails] = useState({});
     const [openDialog, setOpenDialog] = useState(false);
     const [dialogContent, setDialogContent] = useState(null);
@@ -52,26 +52,29 @@ export default function ViewLoan() {
             navigate('/')
         }
         const emailId = localStorage.getItem('emailId');
-        if (usersDetails.length === 0) {
-            dispatch(getUserDetails());
-        } else {
-            if (emailId && emailId.length > 0) {
-                const dataVal = usersDetails.find(ele => ele.email === emailId);
-                console.log(dataVal)
-                setCurrentUserDetails(dataVal)
+        // if (usersDetails.length === 0) {
+        //     (async () => {
+        //         await dispatch(getUserDetails());
+        //         await dispatch(getLoanDetails());
+        //     })()
+
+        // } else {
+        if (emailId && emailId.length > 0) {
+            const dataVal = usersDetails.find(ele => ele.email === emailId);
+            setCurrentUserDetails(dataVal)
+            // const loanDataVal = 
+            const loanDataIdVal = loanDetails.find((ele) => ele.id === parseInt(id));
+            setloanData(loanDataIdVal);
+            if (loanDetails.length > 0) {
+                const loanCustomerData = usersDetails.find(ele => ele.name === loanDataIdVal.name);
+                if (!Object.keys(loanCustomerData).includes('existingLoanId')) {
+                    setMarkCompleted(true);
+                }
             }
-            (async () => {
-                await axios.get('http://localhost:8080/loanDetails', { params: { id: id } }).then(res => {
-                    const loanDataVal = res.data[0];
-                    setloanData(loanDataVal);
-                }).catch(err => {
-                    console.log(err)
-                })
-            })()
+
         }
 
-
-    }, [id, dispatch, usersDetails, navigate])
+    }, [id, dispatch, usersDetails, navigate, loanDetails, setMarkCompleted])
     const handleOpenDialog = (content) => {
         setDialogContent(content);
         setOpenDialog(true);
@@ -83,7 +86,7 @@ export default function ViewLoan() {
         setDialogContent(null);
         if (dataFromDialog.selectedOption.length > 0) {
             console.log(dataFromDialog)
-            const patchParams = dataFromDialog.selectedButton === ('Assigned' || 'Reassigned') ? { loanOfficer: dataFromDialog.selectedOption, status: 'underwriting' } : { comments: dataFromDialog.selectedOption, status: dataFromDialog.selectedButton }
+            const patchParams = dataFromDialog.selectedButton === ('Assigned' || 'Reassigned') ? { loanOfficer: dataFromDialog.selectedOption, status: 'Underwriting' } : { comments: dataFromDialog.selectedOption, status: dataFromDialog.selectedButton, loanOfficer: loanData.loanOfficer !== '-' ? loanData.loanOfficer : currentUserDetails.name }
             axios.patch(`http://localhost:8080/loanDetails/${id}`, patchParams).then(res => {
                 setloanData(res.data)
             }).catch(err => { console.log(err) })
@@ -110,7 +113,7 @@ export default function ViewLoan() {
 
     }
     return (
-        Object.keys(loanData).length > 0 && Object.keys(currentUserDetails).length > 0 && <div className='container'>
+        usersDetails.length > 0 && loanData && Object.keys(loanData).length > 0 && currentUserDetails && Object.keys(currentUserDetails).length > 0 && <div className='container'>{console.log(Object.keys(currentUserDetails))}
             <div className="row  mb-2">
                 <div className='subform-title'>Basic Details</div>
                 {loanBasicDetailTemplate.map((ele, ind) => (

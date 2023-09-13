@@ -54,7 +54,7 @@ export default function LoanStatistics() {
             if (roleData === 'BANK_MANAGER') {
                 console.log(loanDetails)
                 const rejectedData = loanDetails.filter(ele => ele.status === 'Rejected' && ele.branch === currentUserDetails.branch);
-                const overallData = loanDetails.filter(ele => ele.branch === currentUserDetails.branch && ele.status === 'underwriting');
+                const overallData = loanDetails.filter(ele => ele.branch === currentUserDetails.branch && ele.status === 'Underwriting');
                 const approvedData = loanDetails.filter(ele => ele.status === 'Approved' && ele.branch === currentUserDetails.branch);
                 const pendingData = loanDetails.filter(ele => ele.status === 'Pending' && ele.branch === currentUserDetails.branch);
                 setApprovedLoanList(approvedData.map(ele => { return { id: ele.id, name: ele.name, status: ele.status, loanOfficer: ele.loanOfficer } }));

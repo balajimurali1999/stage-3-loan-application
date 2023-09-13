@@ -7,13 +7,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUserDetails } from "../redux/UserReducer";
 import DragAndDropFileUpload from './CombinedFileUpload';
 import { useNavigate } from 'react-router-dom';
+import { useApiCalled } from '../context/ApiCallContext';
 export default function LoanForm({ userData }) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const emailId = localStorage.getItem('emailId');
     const usersDetails = useSelector((state) => state.user.user);
+    const loanDetails = useSelector((state) => state.loan.loan);
+    const { setApiCalled } = useApiCalled();
     const [currentUserDetails, setCurrentUserDetails] = useState({});
-    let peopleId = '';
     // const currentUserDetails = { name: 'balaji', dateOfBirth: '2023-05-22', gender: 'male', panId: 'ABXXX5XXXXC', email: 'balaji@gmail.com', branch: 'bangalore' }
     const formikForm = useFormik({
         initialValues: {
@@ -39,20 +41,27 @@ export default function LoanForm({ userData }) {
                 basicDetailFields.forEach(ele => {
                     requestData[ele.name] = currentUserDetails[ele.name];
                 })
-                axios.get('http://localhost:8080/LoanDetails', { params: { branch: formikForm.values.branch } }).then(res => {
-                    if (res.data.length === 0) {
-                        const numId = 1;
+                if (loanDetails.length > 0) {
+                    requestData.id = 1
+                } else {
+                    requestData.id = (loanDetails.length + 1);
+                }
+                // const branchLoanDetails = loanDetails.filter(ele => ele.branch)
+                // axios.get('http://localhost:8080/LoanDetails', { params: { branch: formikForm.values.branch } }).then(res => {
+                //     if (res.data.length === 0) {
+                //         const numId = 1;
 
-                        requestData.id = numId;
-                    } else {
-                        requestData.id = (res.data.length + 1);
-                    }
-                });
+                //         requestData.id = numId;
+                //     } else {
+                //         requestData.id = (res.data.length + 1);
+                //     }
+                // });
                 requestData[`createdTime`] = new Date();
                 requestData[`status`] = 'Pending';
                 requestData[`loanOfficer`] = '-'
                 axios.post('http://localhost:8080/loanDetails', requestData).then(res => {
-                    console.log(res)
+                    console.log(res);
+
                 }).catch(err => {
                     console.log(err);
                 });
@@ -63,12 +72,13 @@ export default function LoanForm({ userData }) {
                     axios.put(`http://localhost:8080/peopleDetails/${payloadData.id}`, payloadData, { params: queryParams }).then(res => {
                         console.log(res)
                         if (res) {
+                            setApiCalled(true);
                             navigate('/');
                         }
                     }).catch(err => {
                         console.log(err);
                     });
-                }, 1000)
+                }, 100)
 
             }
             console.log(values)
@@ -118,9 +128,9 @@ export default function LoanForm({ userData }) {
         } else {
             if (emailId && emailId.length > 0) {
                 const dataVal = usersDetails.find(ele => ele.email === emailId);
-                
-                
-                 setCurrentUserDetails(dataVal);
+
+
+                setCurrentUserDetails(dataVal);
 
             }
         }

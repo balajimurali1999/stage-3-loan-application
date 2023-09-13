@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { getUserDetails } from "../redux/UserReducer";
-import axios from 'axios';
+import {  useSelector } from 'react-redux';
 import '../styles/dashboard.css'
 import LoanList from './LoanList';
 import ViewCell from './ViewCell';
 
 export default function Dashboard() {
 
-    const dispatch = useDispatch();
     const usersDetails = useSelector((state) => state.user.user);
+    const loanDetails = useSelector((state) => state.loan.loan);
+
     const [currentUserDetails, setCurrentUserDetails] = useState({});
     const [rowData, setRowData] = useState([]);
     const navigate = useNavigate();
@@ -56,42 +55,28 @@ export default function Dashboard() {
         if (!emailId) {
             navigate('/login');
         }
-
-        if (usersDetails.length === 0) {
-            dispatch(getUserDetails());
-        } else {
-            if (emailId && emailId.length > 0) {
-                const dataVal = usersDetails.find(ele => ele.email === emailId);
-                setCurrentUserDetails(dataVal);
-                (async () => {
-                    await axios.get('http://localhost:8080/loanDetails').then((res) => {
-
-                        if (res.data.length > 0 && currentUserDetails.role === 'BANK_MANAGER') {
-                            const branchData = res.data.filter(ele => ele.branch === currentUserDetails.branch);
-                            const rowData = branchData.map(ele => { return { id: ele.id, name: ele.name, status: ele.status, loanOfficer: ele.loanOfficer } })
-                            setRowData(rowData)
-                        } else if (res.data.length > 0 && currentUserDetails.role === 'LOAN_OFFICER') {
-                            const rowVal = res.data.filter(ele => ele.loanOfficer === currentUserDetails.name);
-                            console.log(rowVal);
-                            const rowData = rowVal.map(ele => { return { id: ele.id, name: ele.name, status: ele.status } })
-                            setRowData(rowData)
-                        } else if (res.data.length > 0) {
-                            const rowVal = res.data.filter(ele => ele.name === currentUserDetails.name);
-                            const rowData = rowVal.map(ele => { return { id: ele.id, name: ele.name, status: ele.status } })
-                            setRowData(rowData)
-
-                        }
-
-                    }).catch(err => {
-                        console.log(err)
-                    })
-                }
-                )();
+        if (emailId && emailId.length > 0) {
+            const dataVal = usersDetails.find(ele => ele.email === emailId);
+            setCurrentUserDetails(dataVal);
+            if (loanDetails.length > 0 && currentUserDetails.role === 'BANK_MANAGER') {
+                const branchData = loanDetails.filter(ele => ele.branch === currentUserDetails.branch);
+                const rowData = branchData.map(ele => { return { id: ele.id, name: ele.name, status: ele.status, loanOfficer: ele.loanOfficer } })
+                setRowData(rowData)
+            } else if (loanDetails.length > 0 && currentUserDetails.role === 'LOAN_OFFICER') {
+                const rowVal = loanDetails.filter(ele => ele.loanOfficer === currentUserDetails.name);
+                console.log(rowVal);
+                const rowData = rowVal.map(ele => { return { id: ele.id, name: ele.name, status: ele.status } })
+                setRowData(rowData)
+            } else if (loanDetails.length > 0) {
+                const rowVal = loanDetails.filter(ele => ele.name === currentUserDetails.name);
+                const rowData = rowVal.map(ele => { return { id: ele.id, name: ele.name, status: ele.status } })
+                setRowData(rowData)
 
             }
+
         }
 
-    }, [currentUserDetails, dispatch, usersDetails, navigate]);
+    }, [ navigate, currentUserDetails, usersDetails, loanDetails]);
     return (
         <div className='dashboard-container'>
             <div className="row container subform-title">Dashboard</div>
@@ -101,7 +86,7 @@ export default function Dashboard() {
                     <div className="subform-title">User Details</div>
                     <div className="container">
                         {userDetailDisplayTemplate.map((ele, ind) => (
-                          <b>  <div key={ind} className="row array-data form-label">{ele.displayName} :  {currentUserDetails[ele.name]}</div></b>
+                            <b key={ind}>  <div  className="row array-data form-label">{ele.displayName} :  {currentUserDetails[ele.name]}</div></b>
                         ))
 
                         }
@@ -109,7 +94,7 @@ export default function Dashboard() {
                             <>
                                 <div className=" subform-title">Branch Members</div>
                                 {currentUserDetails.branchMembers.map((ele, ind) => (
-                                    <div key={ele}>
+                                    <div key={ind}>
                                         <div className="row  form-label">Name : {ele.name}</div>
                                         <div className="row form-label">Email : {ele.email}</div>
                                     </div>
@@ -121,7 +106,7 @@ export default function Dashboard() {
                 </div>
                 <div className="col  data-table-container"   >
                     {currentUserDetails.role === 'BANK_MANAGER' &&
-                        <>
+                        <>{console.log(rowData)}
                             <div className=" subform-title">Branch  Loans</div> <br></br>
                             <LoanList columns={managerTableColumns} rowData={rowData} />
                         </>

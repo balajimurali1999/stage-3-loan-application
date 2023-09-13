@@ -4,12 +4,15 @@ import '../styles/login.css'
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useApiCalled } from '../context/ApiCallContext';
+
 export default function Loginpage() {
     const navigate = useNavigate();
     const textVal = 'text';
     const passwordVal = 'password';
     const [errorData, setErrorData] = useState('');
     const [passwordVisisblity, setPasswordVisiblity] = useState(false);
+    const {setApiCalled} = useApiCalled();
 
     const formikForm = useFormik({
         initialValues: {
@@ -30,6 +33,7 @@ export default function Loginpage() {
                         });
                         if (indexVal !== -1) {
                             navigate('/');
+                            setApiCalled(true);
                             // window.location.reload();
                             setErrorData('');
                             localStorage.setItem('emailId', values.email)
@@ -57,7 +61,7 @@ export default function Loginpage() {
         }
         setPasswordVisiblity(visiblity);
     }
-    useEffect(() => {
+    useEffect(() => {console.log('hi');
         let emailId = localStorage.getItem('emailId');
         if (emailId && emailId.length > 0) {
             navigate('/');

@@ -18,13 +18,12 @@ let UserReducer = createSlice({
         console.log('hi')
         builder.addCase(getUserDetails.fulfilled, (state, action) => {
             state.user = action.payload;
-
+            console.log('success')
         });
-        builder.addCase(getUserDetails.pending, () => {
-
-        });
-        builder.addCase(getUserDetails.rejected, () => {
+        builder.addCase(getUserDetails.rejected, (state) => {
+            state.user = [];
         });
     },
 });
+console.log(UserReducer)
 export default UserReducer.reducer;
